@@ -1,0 +1,7 @@
+Ranks:
+  Default:
+    default: true
+    permissions:
+      - test.test
+    prefix: '&7'
+    suffix: ''

@@ -1,0 +1,6 @@
+name: DRank
+author: MeDrioX
+version: 1.0
+main: fr.medriox.drank.DRank
+commands:
+  test:
