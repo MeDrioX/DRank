@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
  */
 
 
-public class DRankCommands implements CommandExecutor {
+public class RankCommandOld implements CommandExecutor {
 
 
     @Override
