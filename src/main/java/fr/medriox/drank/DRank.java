@@ -53,13 +53,16 @@ public class DRank extends JavaPlugin {
 
     public void setupRanks(){
        for(String rank : fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks").getKeys(false)){
-           String prefix = fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks." + rank).getString("prefix");
-           boolean defaultRank = fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks." + rank).getBoolean("default");
-           String suffix = fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks." + rank).getString("suffix");
-           List<String> permissionsList = fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks." + rank).getStringList("permissions");
-           Rank rank1 = new Rank(rank, prefix, defaultRank, suffix);
-           rank1.setPermissions((ArrayList<String>) permissionsList);
-           this.getRanks().add(rank1);
+           Rank rankCheck = getRanks().stream().filter(rank1 -> rank1.getName().equals(rank)).findFirst().orElse(null);
+           if(rankCheck == null){
+               String prefix = fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks." + rank).getString("prefix");
+               boolean defaultRank = fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks." + rank).getBoolean("default");
+               String suffix = fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks." + rank).getString("suffix");
+               List<String> permissionsList = fileManager.getConfig("ranks.yml").get().getConfigurationSection("Ranks." + rank).getStringList("permissions");
+               Rank rank1 = new Rank(rank, prefix, defaultRank, suffix);
+               rank1.setPermissions((ArrayList<String>) permissionsList);
+               this.getRanks().add(rank1);
+           }
        }
     }
 
