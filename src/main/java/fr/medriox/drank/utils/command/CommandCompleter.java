@@ -5,12 +5,6 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by MeDrioX on 17/02/2020
- */
-
-
 class CommandCompleter  {
 
 
@@ -26,7 +20,9 @@ class CommandCompleter  {
                 List<String> tab = iCommand.getTabComplete(commandSender);
                 List<String> commands = new ArrayList<>((tab.size() != 0 ? tab : iCommand.getTabComplete()));
                 iCommand.getISubCommands().forEach((s, iSubCommand) -> {
-                    if (iSubCommand.getBeforeCommand().equals("")) commands.add(s);
+                    iSubCommand.forEach(command -> {
+                        if (command.getBeforeCommand().equals("")) commands.add(s);
+                    });
                 });
                 return getTabComplete(args[0], commands);
             } else {
@@ -35,8 +31,10 @@ class CommandCompleter  {
                     List<String> tab = iSubCommand.getTabComplete(commandSender);
                     List<String> commands = new ArrayList<>((tab.size() != 0 ? tab : iSubCommand.getTabComplete()));
                     iCommand.getISubCommands().forEach((s, iSub) -> {
-                        if (iSub.getBeforeCommand().equals(getBeforeCommand(getNumberOfSubCommand(iSubCommand, args), args)))
-                            commands.add(s);
+                        iSub.forEach(command -> {
+                            if (command.getBeforeCommand().equals(getBeforeCommand(getNumberOfSubCommand(iSubCommand, args), args)))
+                                commands.add(s);
+                        });
                     });
                     return getTabComplete(args[getNumberOfSubCommand(iSubCommand, args)], commands);
                 }
@@ -48,8 +46,12 @@ class CommandCompleter  {
     private ISubCommand getSubCommand(ICommand iCommand, String[] args){
         int size = (args.length - 1);
         for (int i = size; 0 <= i; i--) {
-            if (iCommand.getISubCommands().containsKey(args[i]) && getBeforeCommand(i-1,args).equals(iCommand.getISubCommands().get(args[i]).getBeforeCommand())) {
-                return iCommand.getISubCommands().get(args[i]);
+            if (iCommand.getISubCommands().containsKey(args[i])) {
+                for (ISubCommand iSubCommand : iCommand.getISubCommands().get(args[i])) {
+                    if (getBeforeCommand(i - 1, args).equals(iSubCommand.getBeforeCommand().replace(" ", ""))){
+                        return iSubCommand;
+                    }
+                }
             }
         }
         return null;
@@ -57,7 +59,12 @@ class CommandCompleter  {
 
     private boolean hasCompletedTab(ICommand iCommand, String[] args){
         String s = args[args.length - 2];
-        return !iCommand.getISubCommands().containsKey(s) && !iCommand.getISubCommands().get(s).getTabComplete().contains(args[args.length - 1]);
+        if (iCommand.getISubCommands().containsKey(s)) {
+            for (ISubCommand iSubCommand : iCommand.getISubCommands().get(s)) {
+                if (iSubCommand.getTabComplete().contains(args[args.length - 1])) return true;
+            }
+        }
+        return false;
     }
 
     private int getNumberOfSubCommand(ISubCommand iSubCommand, String[] args){
@@ -89,4 +96,3 @@ class CommandCompleter  {
         }
     }
 }
-

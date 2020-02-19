@@ -6,11 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by MeDrioX on 17/02/2020
- */
-
-
 public abstract class ISubCommand {
 
     private String command;
@@ -31,10 +26,11 @@ public abstract class ISubCommand {
 
     public String getCommand() { return command; }
 
-    HashMap<String, ISubCommand> getISubCommands() { return iCommand.getISubCommands(); }
+    HashMap<String, List<ISubCommand>> getISubCommands() { return iCommand.getISubCommands(); }
     public void addISubCommand(ISubCommand iSubCommand){
         iSubCommand.setBeforeCommand((this.getBeforeCommand() != null? this.getBeforeCommand()+" "+command: command));
-        iCommand.getISubCommands().put(iSubCommand.getCommand(), iSubCommand);
+        if(!iCommand.getISubCommands().containsKey(iSubCommand.getCommand())) iCommand.getISubCommands().put(iSubCommand.getCommand(), new ArrayList<>());
+        iCommand.getISubCommands().get(iSubCommand.getCommand()).add(iSubCommand);
     }
 
     public String getPrefix() { return prefix; }
@@ -53,4 +49,3 @@ public abstract class ISubCommand {
 
     public List<String> getTabComplete(CommandSender sender) { return new ArrayList<>(); }
 }
-

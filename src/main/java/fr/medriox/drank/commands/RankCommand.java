@@ -1,9 +1,7 @@
 package fr.medriox.drank.commands;
 
-import fr.medriox.drank.commands.subcommand.RankConfigCommand;
-import fr.medriox.drank.commands.subcommand.RankCreateCommand;
-import fr.medriox.drank.commands.subcommand.RankListCommand;
-import fr.medriox.drank.commands.subcommand.RankSetCommand;
+import fr.medriox.drank.DRank;
+import fr.medriox.drank.commands.subcommand.user.RankUserAddCommand;
 import fr.medriox.drank.utils.command.ICommand;
 import org.bukkit.command.CommandSender;
 
@@ -14,12 +12,11 @@ import org.bukkit.command.CommandSender;
 
 public class RankCommand extends ICommand {
 
-    public RankCommand() {
+    public RankCommand(DRank dRank) {
         super("drank");
-        this.addISubCommand(new RankCreateCommand("create", this));
-        this.addISubCommand(new RankListCommand("list", this));
-        this.addISubCommand(new RankSetCommand("set", this));
-        this.addISubCommand(new RankConfigCommand("config", this));
+        this.addISubCommand(new RankUserAddCommand("add", this, dRank));
+        /*this.addISubCommand(new RankListCommand("del", this));
+        this.addISubCommand(new RankSetCommand("whois", this));*/
     }
 
     @Override

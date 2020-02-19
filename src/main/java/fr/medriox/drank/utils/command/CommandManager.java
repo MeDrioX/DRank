@@ -11,11 +11,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by MeDrioX on 17/02/2020
- */
-
-
 public class CommandManager {
 
     private List<ICommand> iCommands;
@@ -50,16 +45,15 @@ public class CommandManager {
     }
 
     private void registerCommands(ICommand iCommand) {
-        try {
-            Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            try {
+                Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 
-            bukkitCommandMap.setAccessible(true);
-            CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+                bukkitCommandMap.setAccessible(true);
+                CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
 
-            commandMap.register(iCommand.getCommand(), new CommandTell(iCommand, this));
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+                commandMap.register(iCommand.getCommand(), new CommandHandler(iCommand, this));
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
     }
 }
-

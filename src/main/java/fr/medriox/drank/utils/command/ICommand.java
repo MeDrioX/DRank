@@ -6,11 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by MeDrioX on 17/02/2020
- */
-
-
 public abstract class ICommand {
 
     private String command;
@@ -19,7 +14,7 @@ public abstract class ICommand {
     private String permission;
     private String no_permission;
     private List<String> aliases;
-    private HashMap<String, ISubCommand> iSubCommands;
+    private HashMap<String, List<ISubCommand>> iSubCommands;
     private ExecutorType executorType;
     private String prefix;
     private List<String> tabComplete;
@@ -50,9 +45,12 @@ public abstract class ICommand {
 
 
 
-    public HashMap<String, ISubCommand> getISubCommands() { return iSubCommands; }
-    void setISubCommands(HashMap<String, ISubCommand> iSubCommands) { this.iSubCommands = iSubCommands; }
-    public void addISubCommand(ISubCommand iSubCommand){ this.iSubCommands.put(iSubCommand.getCommand(), iSubCommand); }
+    public HashMap<String, List<ISubCommand>> getISubCommands() { return iSubCommands; }
+    void setISubCommands(HashMap<String, List<ISubCommand>> iSubCommands) { this.iSubCommands = iSubCommands; }
+    public void addISubCommand(ISubCommand iSubCommand){
+        if(!this.iSubCommands.containsKey(iSubCommand.getCommand())) this.iSubCommands.put(iSubCommand.getCommand(), new ArrayList<>());
+        this.iSubCommands.get(iSubCommand.getCommand()).add(iSubCommand);
+    }
 
     ExecutorType getExecutorType() { return executorType; }
     public void setExecutorType(ExecutorType executorType) { this.executorType = executorType; }
@@ -75,4 +73,3 @@ public abstract class ICommand {
 
     public List<String> getTabComplete(CommandSender sender) { return new ArrayList<>(); }
 }
-

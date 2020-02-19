@@ -23,6 +23,7 @@ public class PlayerQuit implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
         Player player = e.getPlayer();
+        dRank.getPlayers().remove(dRank.getPlayers().stream().filter(playerData -> playerData.getUUID().equals(player.getUniqueId())).findFirst().get());
         new PermissionsManager(dRank).removePermissions(player);
     }
 

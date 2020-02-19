@@ -2,11 +2,13 @@ package fr.medriox.drank;
 
 import fr.medriox.drank.commands.RankCommand;
 import fr.medriox.drank.listeners.EventsManager;
+import fr.medriox.drank.manager.permissions.PermissionsManager;
 import fr.medriox.drank.manager.player.PlayerData;
 import fr.medriox.drank.manager.rank.Rank;
 import fr.medriox.drank.utils.FileManager;
 import fr.medriox.drank.utils.command.CommandManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,8 +40,9 @@ public class DRank extends JavaPlugin {
         setupRanks();
         updateAll();
         checkVersion();
+        reloadPlayers();
         new EventsManager(this);
-        new CommandManager(this).registerCommand(new RankCommand());
+        new CommandManager(this).registerCommand(new RankCommand(this));
         super.onEnable();
     }
 
@@ -49,6 +52,26 @@ public class DRank extends JavaPlugin {
         this.players.clear();
         this.playersPermissions.clear();
         super.onDisable();
+    }
+
+    public void reloadPlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()){
+            if(this.getFileManager().getConfig("players.yml").get(player.getUniqueId().toString()) == null){
+                Rank rank = this.getRanks().stream().filter(Rank::isRankDefault).findFirst().get();
+                this.getFileManager().getConfig("players.yml").get().set(player.getUniqueId().toString() + ".name", player.getName());
+                this.getFileManager().getConfig("players.yml").get().set(player.getUniqueId().toString() + ".rank", rank.getName());
+                this.getFileManager().getConfig("players.yml").save();
+                PlayerData dPlayer = new PlayerData(player.getUniqueId(), rank);
+                this.getPlayers().add(dPlayer);
+                new PermissionsManager(this).setupPermission(player);
+            }else{
+                String rankName = this.getFileManager().getConfig("players.yml").get().getConfigurationSection(player.getUniqueId().toString()).getString("rank");
+                Rank rank = this.getRanks().stream().filter(rank1 -> rank1.getName().equals(rankName)).findFirst().get();
+                PlayerData dPlayer = new PlayerData(player.getUniqueId(), rank);
+                this.getPlayers().add(dPlayer);
+                new PermissionsManager(this).setupPermission(player);
+            }
+        }
     }
 
     public void setupRanks(){

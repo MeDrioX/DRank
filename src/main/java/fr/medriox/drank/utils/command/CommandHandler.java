@@ -7,18 +7,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by MeDrioX on 17/02/2020
- */
-
-
-class CommandTell extends BukkitCommand {
+class CommandHandler extends BukkitCommand {
 
 
     private CommandManager commandManager;
     private CommandCompleter commandCompleter;
     private ICommand iCommand;
-    CommandTell(ICommand iCommand ,CommandManager commandManager) {
+    CommandHandler(ICommand iCommand , CommandManager commandManager) {
         super(iCommand.getCommand());
         this.setAliases(iCommand.getAliases());
         this.setDescription(iCommand.getDescription());
@@ -35,28 +30,28 @@ class CommandTell extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender commandSender, String command, String[] args) {
-        try {
-            if (commandManager.hasExecutorType(commandSender, iCommand.getExecutorType())) {
-                if (args.length != 0) {
-                    ISubCommand iSubCommand = getSubCommand(iCommand, args);
-                    if(iSubCommand != null) {
-                        List<String> list = new ArrayList<>(Arrays.asList(args));
-                        int size = getNumberOfSubCommand(iSubCommand, args);
-                        for (int i = 0; i < size; i++) {
-                            list.remove(i);
+            try {
+                if (commandManager.hasExecutorType(commandSender, iCommand.getExecutorType())) {
+                    if (args.length != 0) {
+                        ISubCommand iSubCommand = getSubCommand(iCommand, args);
+                        if(iSubCommand != null) {
+                            List<String> list = new ArrayList<>(Arrays.asList(args));
+                            int size = getNumberOfSubCommand(iSubCommand, args);
+                            for (int i = 0; i < size; i++) {
+                                list.remove(i);
+                            }
+                            if(size == 0) list.remove(0);
+                            iSubCommand.onCommand(commandSender, gerateArgs(list));
+                        }else {
+                            iCommand.onCommand(commandSender, args);
                         }
-                        if(size == 0) list.remove(0);
-                        iSubCommand.onCommand(commandSender, gerateArgs(list));
-                    }else {
-                        iCommand.onCommand(commandSender, args);
+                        return true;
                     }
-                    return true;
+                    iCommand.onCommand(commandSender, args);
                 }
-                iCommand.onCommand(commandSender, args);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return false;
     }
 
@@ -78,8 +73,12 @@ class CommandTell extends BukkitCommand {
     private ISubCommand getSubCommand(ICommand iCommand, String[] args){
         int size = (args.length - 1);
         for (int i = size; 0 <= i; i--) {
-            if (iCommand.getISubCommands().containsKey(args[i]) && getBeforeCommand(i-1,args).equals(iCommand.getISubCommands().get(args[i]).getBeforeCommand())) {
-                return iCommand.getISubCommands().get(args[i]);
+            if (iCommand.getISubCommands().containsKey(args[i])) {
+                for (ISubCommand iSubCommand : iCommand.getISubCommands().get(args[i])) {
+                    if (getBeforeCommand(i - 1, args).equals(iSubCommand.getBeforeCommand().replace(" ", ""))){
+                        return iSubCommand;
+                    }
+                }
             }
         }
         return null;
