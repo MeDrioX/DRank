@@ -23,8 +23,9 @@ import static org.bukkit.ChatColor.GREEN;
 public class UpdateChecker {
 
     private DRank dRank;
-    private String url = "https://api.spigotmc.org/legacy/update.php?resource=";
-    private String ressourceID = "5867";
+    //private String url = "https://api.spigotmc.org/legacy/update.php?resource=";
+    private String url = "https://pastebin.com/raw/Zy67xgZ4";
+    private String ressourceID = "0";
     private String pluginVersion;
     private String latestVersion = null;
 
@@ -49,7 +50,7 @@ public class UpdateChecker {
             String pluginVersion = dRank.getDescription().getVersion();
             this.pluginVersion = pluginVersion;
 
-            HttpsURLConnection connection = (HttpsURLConnection) new URL(url + ressourceID).openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
 
             String raw = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();

@@ -36,6 +36,8 @@ public class PlayerJoin implements Listener {
                 UpdateChecker updateChecker = new UpdateChecker(dRank);
                 if(updateChecker.isAvailable()){
                     player.sendMessage(GREEN + "[DRank] There is a newer version available: " + updateChecker.getLatestVersion() + ", you're on: " + updateChecker.getPluginVersion());
+                }else{
+                    player.sendMessage(GREEN + "[DRank] No update available");
                 }
             }
         }, 5 * 20L);

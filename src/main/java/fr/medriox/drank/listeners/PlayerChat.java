@@ -26,7 +26,7 @@ public class PlayerChat implements Listener {
         Player player = e.getPlayer();
         String formatChat = null;
         PlayerData dPlayer = dRank.getPlayers().stream().filter(playerData -> playerData.getUUID().equals(player.getUniqueId())).findFirst().get();
-        formatChat = dRank.getFileManager().getConfig("config.yml").get().getConfigurationSection("chat").getString("format").replace("%rank%", dPlayer.getRank().getPrefix()).replace("%player%", player.getDisplayName()).replace("%message%", e.getMessage());
+        formatChat = dRank.getFileManager().getConfig("config.yml").get().getConfigurationSection("chat").getString("format").replace("%rank%", dPlayer.getRank().getPrefix()).replace("%player%", player.getDisplayName()).replace("%message%", e.getMessage()).replace("%suffix%", dPlayer.getRank().getSuffix());
         e.setFormat(formatChat.replace("&", "§"));
     }
 
