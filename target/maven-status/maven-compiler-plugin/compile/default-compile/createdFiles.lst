@@ -6,12 +6,11 @@ fr\medriox\drank\manager\player\PlayerData.class
 fr\medriox\drank\commands\RankCommand.class
 fr\medriox\drank\utils\command\CommandHandler.class
 fr\medriox\drank\manager\permissions\PermissionsManager.class
-fr\medriox\drank\commands\subcommand\old\RankSetCommand.class
+fr\medriox\drank\commands\subcommand\group\RankGroupListCommand.class
+fr\medriox\drank\commands\subcommand\user\RankUserRemoveCommand.class
 fr\medriox\drank\listeners\PlayerJoin.class
-fr\medriox\drank\commands\subcommand\old\RankConfigCommand.class
 fr\medriox\drank\manager\player\PlayerDataManager.class
 fr\medriox\drank\utils\command\ICommand.class
-fr\medriox\drank\commands\subcommand\old\RankCreateCommand.class
 fr\medriox\drank\utils\UpdateChecker.class
 fr\medriox\drank\utils\FileManager.class
 fr\medriox\drank\listeners\PlayerChat.class
@@ -20,6 +19,4 @@ fr\medriox\drank\utils\command\ISubCommand.class
 fr\medriox\drank\utils\FileManager$Config.class
 fr\medriox\drank\utils\command\CommandCompleter.class
 fr\medriox\drank\listeners\EventsManager.class
-fr\medriox\drank\commands\subcommand\old\RankListCommand.class
-fr\medriox\drank\commands\RankCommandOld.class
 fr\medriox\drank\commands\subcommand\user\RankUserAddCommand.class

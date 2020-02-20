@@ -4,6 +4,7 @@ import fr.medriox.drank.DRank;
 import fr.medriox.drank.manager.rank.Rank;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.bukkit.ChatColor.*;
@@ -41,12 +42,20 @@ public class PlayerDataManager {
             }
         }else{
             sender.sendMessage(RED + "This rank does not exist.");
-            // send List rank
+            if(sender.hasPermission("drank.group.list") || sender.hasPermission("drank.*")){
+                sender.sendMessage("§eRank list:");
+                dRank.getRanks().stream().filter(Objects::nonNull).forEachOrdered(rankl -> sender.sendMessage(GRAY + "- " + GREEN + rankl.getName()));
+            }
         }
     }
 
     public void removeRank(){
-
+        Rank rank = dRank.getRanks().stream().filter(Rank::isRankDefault).findFirst().get();
+        if(rank != null){
+            setRank(rank.getName());
+        }else{
+            sender.sendMessage(RED + "Unable to find default rank");
+        }
     }
 
     public PlayerData getPlayerData() {
