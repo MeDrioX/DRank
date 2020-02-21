@@ -26,7 +26,7 @@ public class RankUpdateCommand extends ISubCommand {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) throws Exception {
-        if(sender.hasPermission("drank.notify") || sender.hasPermission("drank.*")){
+        if(sender.hasPermission("drank.update") || sender.hasPermission("drank.*")){
             UpdateChecker updateChecker = new UpdateChecker(dRank);
             if(updateChecker.isAvailable()){
                 sender.sendMessage(GREEN + "[DRank] There is a newer version available: " + updateChecker.getLatestVersion() + ", you're on: " + updateChecker.getPluginVersion());
