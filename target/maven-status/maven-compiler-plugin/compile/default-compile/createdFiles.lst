@@ -11,6 +11,7 @@ fr\medriox\drank\commands\subcommand\user\RankUserRemoveCommand.class
 fr\medriox\drank\listeners\PlayerJoin.class
 fr\medriox\drank\manager\player\PlayerDataManager.class
 fr\medriox\drank\utils\command\ICommand.class
+fr\medriox\drank\commands\subcommand\RankUpdateCommand.class
 fr\medriox\drank\utils\UpdateChecker.class
 fr\medriox\drank\utils\FileManager.class
 fr\medriox\drank\listeners\PlayerChat.class

@@ -29,6 +29,8 @@ public class RankGroupListCommand extends ISubCommand {
         if(sender.hasPermission("drank.group.list") || sender.hasPermission("drank.*")){
             sender.sendMessage("§eRank list:");
             dRank.getRanks().stream().filter(Objects::nonNull).forEachOrdered(rank -> sender.sendMessage(GRAY + "- " + GREEN + rank.getName()));
+        }else{
+            sender.sendMessage(RED + "You don't have permission");
         }
     }
 }
