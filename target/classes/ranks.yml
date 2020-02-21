@@ -2,6 +2,5 @@ Ranks:
   Default:
     default: true
     permissions:
-      - test.test
-    prefix: '&7'
+    prefix: '&7 '
     suffix: ''

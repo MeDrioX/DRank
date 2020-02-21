@@ -12,4 +12,4 @@
 ############################################################
 
 chat:
-  format: "%rank% %player% &7: &f%message"
+  format: "%rank%%player% &7: &f%message%"
